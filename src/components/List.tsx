@@ -1,33 +1,24 @@
 import React from "react";
+import { People } from "../App";
 
-interface IProps {
-  people: {
-    name: string;
-    age: number;
-    url: string;
-    note?: string;
-  }[];
-}
-const List: React.FC<IProps> = ({ people }) => {
-
-    const renderList=(): JSX.Element[] =>{
-        return people.map((person) =>{
-             return(
-                  <li className="List">
-                       <div className="List-header">
-                            <img className="List-img" src={person.url}/>
-                            <h2>{person.name}</h2>
-                       </div>
-                       <p>{person.age} years old</p>
-                       <p className="List-note">{person.note}</p>
-                  </li>
-                  )
-        })
-    }
-        return(
-            <ul>
-                {renderList()}
-            </ul>
-        )
+const List = ({ people }: { people: People[] }) => {
+  const renderList = (): JSX.Element[] => {
+    return people.map((person) => {
+      return (
+        <div className="responsive">
+          <div className="gallery">
+            <a target="_blank" href={person.download_url}>
+              <img src={person.download_url} alt="Image of author" />
+            </a>
+            <div className="desc">
+              <b>Author : {person.author}</b>
+            </div>
+            <p>{person.id}</p>
+          </div>
+        </div>
+      );
+    });
+  };
+  return <ul>{renderList()}</ul>;
 };
 export default List;

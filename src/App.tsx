@@ -1,31 +1,38 @@
-import React, { useState } from "react";
-import logo from "./logo.svg";
+import { useState, useEffect } from "react";
+
 import "./App.css";
 import List from "./components/List";
-import AddToList from "./components/AddToList";
 
-export interface IState {
-  people: {
-    name: string;
-    age: number;
-    url: string;
-    note?: string;
-  }[];
-}
+export type People = {
+  id: string;
+  author: string;
+  url: string;
+  download_url: string;
+  width: number;
+  height: number;
+};
 function App() {
-  const [people, setPeople] = useState<IState["people"]>([
-    {
-      name:"Hossen Ali",
-      url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzGy30oLdBfwHCYUuKS3eH0xFqJie_q0lANg&usqp=CAU",
-      age:28,
-      note:"Nothing.........."
-    }
-  ]);
+  const [people, setPeople] = useState<People[]>([]);
+  // const [people, setPeople] = useState([]);
+
+  useEffect(() => {
+    const getData = () => {
+      fetch("https://picsum.photos/v2/list?limit=12")
+        .then((response) => response.json())
+        .then((data) => setPeople(data));
+      // console.log(people);
+      // setPeople(data);
+    };
+    getData();
+
+    // setPeople;
+  }, []);
+
+  console.log(people);
   return (
     <div className="App">
-      <h1>People Invited to my Party </h1>
-      <List people={people}/>
-      <AddToList people={people} setPeople={setPeople}/>
+      <h1>Photos of my gallery </h1>
+      <List people={people} />
     </div>
   );
 }
